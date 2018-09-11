@@ -20,12 +20,12 @@ In exercise 2 another database **LAB2_2** was created. For this database was set
 ---
 
  ### Exercise nr.3
-<img align="right" width="800" height="400" src="screenshots/ex3_1.PNG">
+<img align="center" width="800" height="400" src="screenshots/ex3_1.PNG">
 In exeercise 3 was created a maintenance plan for database **LAB2_1** that shrink the database when its size is 2000 Mb. The released space is returned to the operating system. This process occurs every week on Friday at 12:00:00 AM.
 
 ---
 
  ### Exercise nr.4
-<img align="right" width="800" height="400" src="screenshots/ex4_1.PNG">
+<img align="center" width="800" height="400" src="screenshots/ex4_1.PNG">
 In exeercise 4 was created a maintenance plan for database **LAB2_2** that has History Cleanup Task and Rebuild Index Task . It Occurs every first Sunday of every 1 month(s) at 12:00:00 AM
  
