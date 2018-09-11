@@ -14,7 +14,7 @@ In exercise 1 was created a simple database **LAB2_1** were was setted up the au
 ---
 
  ### Exercise nr.2
-<img align="right" width="400" height="400" src="screenshots/ex2_1.PNG">
+<img align="right" width="300" height="200" src="screenshots/ex2_1.PNG">
 In exercise 2 another database **LAB2_2** was created. For this database was setted up Restrict Access -> Single user , that allows only one user at a time to access the database.
 
 ---
