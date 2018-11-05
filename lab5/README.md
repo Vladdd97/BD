@@ -2,7 +2,7 @@
 
 ## Tasks
 ### 1. Fill in the following code to display the biggest number of the three numbers shown.
-<img  align="center" width="450" height="350" src="src="screenshots/lab5_ex1_cond.PNG"">
+<img  align="center" width="450" height="350" src="screenshots/lab5_ex1_cond.PNG">
 
 #### Task implementation: 
 ```
