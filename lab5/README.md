@@ -32,13 +32,22 @@ PRINT 'Mai mare = ' + CAST(@MAI_MARE AS VARCHAR(2));
 #### Result : 
 <img  align="center" width="250" height="150" src="screenshots/lab5_ex1_result.PNG">
 
+
 ### 2. Display the first 10 data (Name, Surname of student) in function of Grade value (except 6 and 8) of student on first evaluation at Database , using IF-ELSE statement. To use variables.
 #### Task implementation: 
 ```
-...
+DECLARE @nota1 as int , @nota2 as int , @numberOfData as int;
+SET @nota1 = 6;
+SET @nota2 = 8;
+SET @numberOfData = 10;
+select top (@numberOfData) s.Nume_Student, s.Prenume_Student , sr.Tip_Evaluare , sr.Nota from discipline d 
+inner join studenti_reusita sr on d.Id_Disciplina = sr.Id_Disciplina
+inner join studenti s on s.Id_Student = sr.Id_Student
+where Disciplina = 'Baze de date' and Tip_evaluare = 'Testul 1' and Nota not in (@nota1,@nota2)
 ```
 #### Result : 
-...
+<img  align="center" width="350" height="200" src="screenshots/lab5_ex2_result">
+
 
 ### 3. Solve the same task,1, using CASE statement.
 #### Task implementation: : 
@@ -91,4 +100,4 @@ BEGIN CATCH
 END CATCH
 ```
 #### Result : 
-<img  align="center" width="250" height="150" src="screenshots/lab4_ex3_result.PNG">
+<img  align="center" width="250" height="150" src="screenshots/lab5_ex4_result.PNG">
