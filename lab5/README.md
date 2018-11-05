@@ -100,8 +100,5 @@ BEGIN CATCH
 END CATCH
 ```
 #### Result : 
-<<<<<<< HEAD
 <img  align="center" width="250" height="150" src="screenshots/lab5_ex4_result.PNG">
-=======
-<img  align="center" width="250" height="150" src="screenshots/lab4_ex3_result.PNG">
->>>>>>> c6f53b9c035662b9dea7874c74a7732f6d6ef2bd
+
