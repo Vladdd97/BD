@@ -46,7 +46,7 @@ inner join studenti s on s.Id_Student = sr.Id_Student
 where Disciplina = 'Baze de date' and Tip_evaluare = 'Testul 1' and Nota not in (@nota1,@nota2)
 ```
 #### Result : 
-<img  align="center" width="350" height="200" src="screenshots/lab5_ex2_result">
+<img  align="center" width="350" height="200" src="screenshots/lab5_ex2_result.PNG">
 
 
 ### 3. Solve the same task,1, using CASE statement.
