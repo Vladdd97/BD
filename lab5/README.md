@@ -75,6 +75,7 @@ PRINT 'Mai mare = ' + CAST(@MAI_MARE AS VARCHAR(2));
 ### 4. Modify the exercises from task 1 and 2 for including error processing with TRY-CATCH and RAISERROR.
 #### Task implementation: : 
 ```
+-- task1
 BEGIN TRY
 	DECLARE @N1 INT, @N2 INT, @N3 INT;
 	DECLARE @MAI_MARE INT;
@@ -92,6 +93,23 @@ BEGIN TRY
 	PRINT @N2;
 	PRINT @N3;
 	PRINT 'Mai mare = ' + CAST(@MAI_MARE AS VARCHAR(2));
+END TRY
+BEGIN CATCH
+	DECLARE @EM as varchar(4000) , @ESEV as int , @EST as int;
+	SELECT @EM = ERROR_MESSAGE() , @ESEV = ERROR_SEVERITY() , @EST = ERROR_STATE();
+	raiserror(@EM,@ESEV,@EST);
+END CATCH
+
+-- task2
+BEGIN TRY
+DECLARE @nota1 as int , @nota2 as int , @numberOfData as int;
+SET @nota1 = 6;
+SET @nota2 = 8;
+SET @numberOfData = 10;
+select top (@numberOfData) s.Nume_Student, s.Prenume_Student , sr.Tip_Evaluare , sr.Nota from discipline d 
+inner join studenti_reusita sr on d.Id_Disciplina = sr.Id_Disciplina
+inner join studenti s on s.Id_Student = sr.Id_Student
+where Disciplina = 'Baze de date' and Tip_evaluare = 'Testul 1' and Nota not in (@nota1,@nota2)
 END TRY
 BEGIN CATCH
 	DECLARE @EM as varchar(4000) , @ESEV as int , @EST as int;
