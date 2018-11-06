@@ -40,10 +40,10 @@ DECLARE @nota1 as int , @nota2 as int , @numberOfData as int;
 SET @nota1 = 6;
 SET @nota2 = 8;
 SET @numberOfData = 10;
-select top (@numberOfData) s.Nume_Student, s.Prenume_Student , sr.Tip_Evaluare , sr.Nota from discipline d 
+select top (@numberOfData) s.Nume_Student, s.Prenume_Student from discipline d 
 inner join studenti_reusita sr on d.Id_Disciplina = sr.Id_Disciplina
 inner join studenti s on s.Id_Student = sr.Id_Student
-where Disciplina = 'Baze de date' and Tip_evaluare = 'Testul 1' and Nota not in (@nota1,@nota2)
+where Disciplina = 'Baze de date' and Tip_evaluare = 'Testul 1' and Nota in ( iif(Nota <> @nota1 and Nota <>@nota2 , Nota , null));
 ```
 #### Result : 
 <img  align="center" width="350" height="200" src="screenshots/lab5_ex2_result.PNG">
@@ -106,10 +106,10 @@ DECLARE @nota1 as int , @nota2 as int , @numberOfData as int;
 SET @nota1 = 6;
 SET @nota2 = 8;
 SET @numberOfData = 10;
-select top (@numberOfData) s.Nume_Student, s.Prenume_Student , sr.Tip_Evaluare , sr.Nota from discipline d 
+select top (@numberOfData) s.Nume_Student, s.Prenume_Student from discipline d 
 inner join studenti_reusita sr on d.Id_Disciplina = sr.Id_Disciplina
 inner join studenti s on s.Id_Student = sr.Id_Student
-where Disciplina = 'Baze de date' and Tip_evaluare = 'Testul 1' and Nota not in (@nota1,@nota2)
+where Disciplina = 'Baze de date' and Tip_evaluare = 'Testul 1' and Nota in ( iif(Nota <> @nota1 and Nota <>@nota2 , Nota , null));
 END TRY
 BEGIN CATCH
 	DECLARE @EM as varchar(4000) , @ESEV as int , @EST as int;
