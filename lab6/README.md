@@ -78,3 +78,239 @@ SET Nota = studenti_reusita.Nota + 1
 where studenti_reusita.Id_Student IN (select Sef_grupa from grupe ) 
 and studenti_reusita.Nota < 10 
 ```
+
+### 5. Create the  profesori_new  table which will include the following columns: Id_Profesor, Nume_Profesor, Prenume_Profesor, Localitate, Adresa_1, Adresa_2.
+    
+
+-   a) Id_Profesor column should be defined as primari key and should include an Clustered Index.   
+-   b) Localitate column should has the DEFAULT = 'mun Chisinau' property.   
+-   c) To insert the data from  **profesori**  table to  **profesori_new**  table following the criteria: Id_Profesor = Id_Profesor
+    
+    Nume_Profesor = Nume_Profesor
+    Prenume_Profesor = Prenume_Profesor
+    Localitate = Name of the locality
+    Adresa_1 = street name
+    Adresa_2 = house number or apartment.
+
+```
+CREATE TABLE profesori_new (
+    Id_Profesor int IDENTITY (1,1) NOT NULL, 
+    Nume_Profesor varchar(255),
+    Prenume_Profesor varchar(255),
+    Localitate varchar(255) DEFAULT 'mun.Chisinau',
+	Adresa_1 varchar(255),
+	Adresa_2 varchar(255),
+	CONSTRAINT PK_TransactionHistoryArchive_TransactionID PRIMARY KEY CLUSTERED (Id_Profesor) 
+);
+	
+	
+	CREATE TABLE profesori_new (
+    Id_Profesor int IDENTITY (1,1) NOT NULL, 
+    Nume_Profesor varchar(255),
+    Prenume_Profesor varchar(255),
+    Localitate varchar(255) DEFAULT 'mun.Chisinau',
+	Adresa_1 varchar(255),
+	Adresa_2 varchar(255),
+	PRIMARY KEY CLUSTERED (Id_Profesor) 
+);
+
+INSERT INTO profesori_new 
+            (
+             nume_profesor, 
+             prenume_profesor, 
+             localitate, 
+             adresa_1, 
+             adresa_2) 
+SELECT  
+       nume_profesor, 
+       prenume_profesor, 
+       CASE 
+         WHEN Charindex('str.', adresa_postala_profesor) > 0 THEN 
+         Substring(adresa_postala_profesor, 1, 
+         Charindex('str.', adresa_postala_profesor) 
+         - 3) 
+         WHEN Charindex('bd.', adresa_postala_profesor) > 0 THEN 
+         Substring(adresa_postala_profesor, 1, 
+         Charindex('bd.', adresa_postala_profesor 
+         ) 
+         - 3) 
+         WHEN Charindex('mun.', adresa_postala_profesor) > 0 THEN 
+         Substring(adresa_postala_profesor, 1, Len(adresa_postala_profesor)) 
+       END, 
+       CASE 
+         WHEN Charindex('str.', adresa_postala_profesor) > 0 THEN 
+         Substring(adresa_postala_profesor, 
+         Charindex('str.', adresa_postala_profesor), 
+         Patindex('%[0-9]%', adresa_postala_profesor) 
+         - 
+         Charindex 
+         ('str.', 
+         adresa_postala_profesor 
+                    ) - 2) 
+         WHEN Charindex('bd.', adresa_postala_profesor) > 0 THEN 
+         Substring(adresa_postala_profesor, 
+         Charindex('bd.', adresa_postala_profesor), 
+         Patindex('%[0-9]%', adresa_postala_profesor) 
+         - 
+         Charindex 
+         ('bd.', 
+         adresa_postala_profesor 
+                     ) - 2) 
+       END, 
+       CASE 
+         WHEN Patindex('%[0-9]%', adresa_postala_profesor) > 0 THEN 
+         Substring(adresa_postala_profesor, 
+         Patindex('%[0-9]%', adresa_postala_profesor 
+         ), 
+         Len( 
+       adresa_postala_profesor) - Patindex('%[0-9]%', adresa_postala_profesor) + 
+         1) 
+       END 
+FROM   profesori 
+
+```
+### 6. To insert in the 'orarul' table the data for the 'Grupa = CIB171'(Id_Grupa = 1) for Monday. All courses will be teaching in the B block, following the criteria :
+
+(Id_Disciplina =107, Id_Profesor = 101, Ora = '08:00', Auditoriu = 202)
+(Id_Disciplina =108, Id_Profesor = 101, Ora = '11:30', Auditoriu = 501)
+(Id_Disciplina =109, Id_Profesor = 117, Ora = '13:00', Auditoriu = 501)
+
+
+```
+
+CREATE TABLE orarul 
+  ( 
+     id_disciplina INT, 
+     id_profesor   INT, 
+     id_grupa      INT, 
+     ora           TIME, 
+     auditoriu     INT, 
+     bloc          CHAR(1) DEFAULT('B'), 
+     zi            CHAR(10) 
+     PRIMARY KEY(id_disciplina, id_profesor, id_grupa) 
+  ); 
+
+INSERT INTO
+   orarul (id_disciplina, id_profesor, id_grupa, ora, auditoriu, bloc, zi) 
+VALUES
+   (
+      107, 101, 1, '08:00', 202, 'B', 'Luni'
+   )
+, 
+   (
+      108, 101, 1, '11:30', 501, 'B', 'Luni'
+   )
+, 
+   (
+      119, 117, 1, '13:00', 501, 'B', 'Luni'
+   )
+```
+### 7.  7.  Write the T-SQL instructions for populating the 'orarul' table for 'Group = INF171' ,Monday. Should be uused the SELECT instruction for populating with the following data :
+
+(Ora = '08:00' , Disciplina = 'Structuri de date si algoritmi', Profesor = 'Bivol Ion')
+(Ora = '11:30' , Disciplina = 'Programe aplicative', Profesor = 'Mircea Sorin')
+(Ora = '13:00' , Disciplina = 'Baze de date', Profesor = 'Micu Elena')
+
+```
+INSERT INTO
+   orarul (Id_Disciplina, Id_Profesor, Id_Grupa, Ora, Auditoriu, Bloc, Zi) 
+VALUES
+   (
+(
+      SELECT
+         Id_Disciplina 
+      FROM
+         discipline 
+      WHERE
+         Disciplina = 'Structuri de date si algoritmi'),
+         (
+            SELECT
+               Id_Profesor 
+            FROM
+               profesori 
+            WHERE
+               Nume_Profesor = 'Bivol' 
+               AND Prenume_Profesor = 'Ion'
+         )
+,
+         (
+            SELECT
+               Id_Grupa 
+            FROM
+               grupe 
+            WHERE
+               Cod_Grupa = 'INF171'
+         )
+,
+         '08:00',
+         502,
+         'B',
+         'Luni'
+   )
+,
+   (
+(
+      SELECT
+         Id_Disciplina 
+      FROM
+         discipline 
+      WHERE
+         Disciplina = 'Programe aplicative'),
+         (
+            SELECT
+               Id_Profesor 
+            FROM
+               profesori 
+            WHERE
+               Nume_Profesor = 'Mircea' 
+               AND Prenume_Profesor = 'Sorin'
+         )
+,
+         (
+            SELECT
+               Id_Grupa 
+            FROM
+               grupe 
+            WHERE
+               Cod_Grupa = 'INF171'
+         )
+,
+         '11:30',
+         502,
+         'B',
+         'Luni'
+   )
+,
+   (
+(
+      SELECT
+         Id_Disciplina 
+      FROM
+         discipline 
+      WHERE
+         Disciplina = 'Baze de date'),
+         (
+            SELECT
+               Id_Profesor 
+            FROM
+               profesori 
+            WHERE
+               Nume_Profesor = 'Micu' 
+               AND Prenume_Profesor = 'Elena'
+         )
+,
+         (
+            SELECT
+               Id_Grupa 
+            FROM
+               grupe 
+            WHERE
+               Cod_Grupa = 'INF171'
+         )
+,
+         '13:00',
+         502,
+         'B',
+         'Luni'
+   ) 
+```
