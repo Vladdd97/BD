@@ -20,7 +20,7 @@
 
 <img  align="center" width="450" height="250" src="screenshots/ex4_1.PNG">
 
-<img  align="center" width="450" height="250"" src="screenshots/ex4_2.PNG">
+<img  align="center" width="450" height="250" src="screenshots/ex4_2.PNG">
 
 
 ### 5. In the diagram should be added the PK-FK for Id_Disciplina, Id_Profesor, Id_Grupa attributes from **orarul** table with those attributes from tables.
