@@ -51,7 +51,7 @@ ALTER SCHEMA studenti TRANSFER dbo.studenti_reusita;
 
 
 
-<img  align="center" width="550" height="350" src="screenshots/ex6.PNG">
+<img  align="center" width="650" height="850" src="screenshots/ex6.PNG">
 
 ### 7. Modify the 2-3 queries from chapter 4 on the 'universitatea' database for explicitly addressing at the tables, taking into account that tables are in the new schemas.
 
