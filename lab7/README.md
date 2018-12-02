@@ -8,7 +8,7 @@
 
 ### 2. Add the references constraints ( for studenti and profesori tables) needed 'Sef_Grupa' , 'Prof_Indrumator' columns from grupe table.
 
-<img  align="center" width="550" height="350"" src="screenshots/ex2.PNG">
+<img  align="center" width="550" height="350" src="screenshots/ex2.PNG">
 
 ### 3. At the performed diagram , should to add **orarul** table. Table **orarul** contains the 'disciplinei' identifier (Id_Disciplina) , profesor's identifier(Id_Profesor) and study block (Bloc). Table key is formed by fields: Id_Grupa, Zi, Ora, Auditoriu.
 
