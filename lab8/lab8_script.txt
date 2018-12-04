@@ -1,0 +1,48 @@
+1.
+
+CREATE VIEW ex1_view2 
+AS 
+  WITH foo 
+       AS (SELECT id_disciplina, 
+                  Count(DISTINCT id_profesor) AS numarProfesori 
+           FROM   studenti.studenti_reusita 
+           GROUP  BY id_disciplina 
+           HAVING Count(DISTINCT id_profesor) > 1) 
+  SELECT plan_studii.discipline.* 
+  FROM   plan_studii.discipline 
+         INNER JOIN foo 
+                 ON foo.id_disciplina = plan_studii.discipline.id_disciplina; 
+
+WITH foo 
+     AS (SELECT id_disciplina, 
+                Count(DISTINCT id_profesor) AS numarProfesori 
+         FROM   studenti.studenti_reusita 
+         GROUP  BY id_disciplina 
+         HAVING Count(DISTINCT id_profesor) > 1) 
+SELECT plan_studii.discipline.* 
+FROM   plan_studii.discipline 
+       INNER JOIN foo 
+               ON foo.id_disciplina = plan_studii.discipline.id_disciplina; 
+			   
+		
+		
+2.
+
+INSERT INTO ex1_View1 ( Cod_Grupa, Specialitate, Nume_Facultate, Sef_grupa, Prof_Idrumator)
+VALUES ('FAF-161','IT','FCIM',110,105);
+
+
+UPDATE ex1_View1
+SET Specialitate = 'Information Technology'
+WHERE Id_Grupa = 4;
+
+
+
+DELETE FROM ex1_View1 WHERE Id_Grupa = 4;
+
+3.
+
+
+alter view ex1_View1 as 
+select * from grupe
+with check option

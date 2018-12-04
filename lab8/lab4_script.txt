@@ -1,0 +1,48 @@
+-- ex1
+select * from grupe
+
+-- ex24
+  WITH foo AS (	select Id_Disciplina ,count( distinct Id_Profesor) as numarProfesori from studenti_reusita
+	group by Id_Disciplina  having count( distinct Id_Profesor) > 1 )
+	select discipline.* from discipline inner join foo on foo.Id_Disciplina = discipline.Id_Disciplina
+	
+-- ex25
+select Id_Grupa from studenti_reusita group by Id_Grupa having count( distinct Id_Student) > 24
+
+-- ex33
+WITH foo1 as(
+SELECT Id_Student, COUNT(DISTINCT Id_Disciplina) AS Nr_Discipline_Studiate 
+FROM dbo.studenti_reusita
+GROUP BY Id_Student
+),
+ foo2 as(
+SELECT Id_Student, COUNT( Id_Disciplina) AS Nr_Discipline_Nesustinute 
+FROM dbo.studenti_reusita
+WHERE Tip_Evaluare='Reusita curenta' AND Nota < 5
+GROUP BY Id_Student
+)
+select distinct foo2.* from foo2 inner join foo1 on foo1.Nr_Discipline_Studiate = foo2.Nr_Discipline_Nesustinute 
+
+-- ex18
+  select Nume_Profesor , Prenume_Profesor from profesori where Id_Profesor IN
+	(
+  select  Id_Profesor from profesori 
+  except (
+  select studenti_reusita.Id_Profesor from discipline
+   inner join studenti_reusita  on studenti_reusita.Id_Disciplina = discipline.Id_Disciplina
+     where discipline.Nr_ore_plan_disciplina > 60
+		 ) 
+	)
+	
+
+	-- cool example 
+		 WITH f1 AS (	select * from studenti where Id_Student > 120  )
+	 , f2 as  (	select * from studenti  )
+	 select f2.* from f2 left join f1 on f2.Id_Student = f1.Id_Student where f1.Id_Student IS NULL
+	 
+	 
+	 -- ex 19
+select distinct profesori.* from studenti 
+inner join studenti_reusita on studenti.Id_Student = studenti_reusita.Id_Student
+inner join profesori on studenti_reusita.Id_Profesor = profesori.Id_Profesor
+where Nume_Student = 'Cosovanu' and Nota < 5 
