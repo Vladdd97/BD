@@ -4,7 +4,7 @@
 ### 1.  Create 2 views based on exercises from 4th laboratory work. One of them should be created using the 'View Designer' and the other using the 'Query Editor'.
 
 
-<img  align="center" width="250" height="150" src="https://wallpaper.wiki/wp-content/uploads/2017/04/wallpaper.wiki-Images-wallpaper-new-PIC-WPC00923.jpg">
+<img  align="center" width="550" height="350" src="screenshots/ex1_1.PNG">
 
 ```
 CREATE VIEW ex1_view2 
