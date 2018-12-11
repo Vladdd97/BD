@@ -205,7 +205,7 @@ VALUES
       119, 117, 1, '13:00', 501, 'B', 'Luni'
    )
 ```
-### 7.  7.  Write the T-SQL instructions for populating the 'orarul' table for 'Group = INF171' ,Monday. Should be uused the SELECT instruction for populating with the following data :
+### 7.  Write the T-SQL instructions for populating the 'orarul' table for 'Group = INF171' ,Monday. Should be uused the SELECT instruction for populating with the following data :
 
 (Ora = '08:00' , Disciplina = 'Structuri de date si algoritmi', Profesor = 'Bivol Ion')
 (Ora = '11:30' , Disciplina = 'Programe aplicative', Profesor = 'Mircea Sorin')
@@ -313,4 +313,13 @@ VALUES
          'B',
          'Luni'
    ) 
+```
+
+### 8....
+
+
+```
+
+CREATE NONCLUSTERED INDEX lab6_ex8 ON studenti.studenti(Nume_Student)
+on userdatagroup1
 ```
