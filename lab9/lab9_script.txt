@@ -1,0 +1,328 @@
+1.
+USE universitatea
+GO
+DROP PROCEDURE IF EXISTS Procedure_Task1_1
+GO
+CREATE PROCEDURE Procedure_Task1_1
+	@numar_profesori SMALLINT = 1
+AS
+  WITH foo 
+       AS (SELECT id_disciplina, 
+                  Count(DISTINCT id_profesor) AS numarProfesori 
+           FROM   studenti.studenti_reusita 
+           GROUP  BY id_disciplina 
+           HAVING Count(DISTINCT id_profesor) > @numar_profesori) 
+  SELECT plan_studii.discipline.* 
+  FROM   plan_studii.discipline 
+         INNER JOIN foo 
+                 ON foo.id_disciplina = plan_studii.discipline.id_disciplina; 
+
+EXECUTE Procedure_Task1_1
+
+
+
+USE universitatea
+GO
+DROP PROCEDURE IF EXISTS Procedure_Task1_2
+GO
+CREATE PROCEDURE Procedure_Task1_2
+	@numar_studenti SMALLINT = 24
+AS
+select Id_Grupa from studenti.studenti_reusita group by Id_Grupa having count( distinct Id_Student) > @numar_studenti
+
+EXECUTE Procedure_Task1_2
+
+2.
+USE universitatea
+GO
+DROP PROCEDURE IF EXISTS Procedure_Task2
+GO
+CREATE PROCEDURE Procedure_Task2
+	@Nr_Studenti SMALLINT = NULL OUTPUT
+AS
+	SET @Nr_Studenti = (SELECT COUNT(DISTINCT(Id_Student))
+						FROM studenti.studenti_reusita
+						WHERE Nota < 5 OR Nota = NULL)
+
+DECLARE @Nr_Students SMALLINT
+EXECUTE Procedure_Task2 @Nr_Students OUTPUT
+
+PRINT 'Nr. of students : ' + CAST(@Nr_Students AS VARCHAR(5))
+
+3.
+
+USE universitatea
+GO
+DROP PROCEDURE IF EXISTS Procedure_Task3
+GO
+CREATE PROCEDURE Procedure_Task3
+	@Nume_Student VARCHAR(50),
+	@Prenume_Student VARCHAR(50),
+	@Data_Nastere_Student DATE,
+	@Adresa_Postala_Student VARCHAR(500),
+	@Cod_Grupa CHAR(6)
+AS
+BEGIN
+	DECLARE @Id_Student INT	
+	SET @Id_Student = (SELECT MAX(Id_Student) FROM studenti.studenti) + 1
+
+	INSERT INTO studenti.studenti
+	VALUES(@Id_Student, @Nume_Student, @Prenume_Student, @Data_Nastere_Student, @Adresa_Postala_Student)
+
+	INSERT INTO studenti.studenti_reusita
+	VALUES(@Id_Student, 
+			100, 
+			100,
+			(SELECT Id_Grupa FROM dbo.grupe WHERE Cod_Grupa = @Cod_Grupa),
+			'Evaluare',
+			NULL,
+			NULL)
+END
+
+EXEC Procedure_Task3 @Nume_Student = 'nameOfStudent', @Prenume_Student = 'surnameOfStudent', @Data_Nastere_Student = '1999-01-01', @Adresa_Postala_Student = 'mun.Chisinau', @Cod_Grupa = 'TI171'
+
+4.
+
+USE universitatea
+GO
+DROP PROCEDURE IF EXISTS Procedure_Task4
+GO
+CREATE PROCEDURE Procedure_Task4
+	@Nume_Profesor_Vechi VARCHAR(60),	
+	@Prenume_Profesor_Vechi VARCHAR(60),
+	@Nume_Profesor_Nou VARCHAR(60),
+	@Prenume_Profesor_Nou VARCHAR(60),
+	@Nume_Disciplina VARCHAR(255)
+AS
+BEGIN
+	IF(SELECT COUNT(*)
+			FROM cadre_didactice.profesori
+			WHERE Nume_Profesor = @Nume_Profesor_Vechi AND Prenume_Profesor = @Prenume_Profesor_Vechi) < 1
+		BEGIN
+			RAISERROR('Old Teacher: wrong teacher', 16, 1)
+		END
+	IF(SELECT COUNT(*)
+			FROM cadre_didactice.profesori
+			WHERE Nume_Profesor = @Nume_Profesor_Nou AND Prenume_Profesor = @Prenume_Profesor_Nou) < 1
+		BEGIN
+			RAISERROR('New Teacher: wrong teacher', 16, 1)
+		END
+	IF(SELECT COUNT(*)
+			FROM plan_studii.discipline
+			WHERE Disciplina = @Nume_Disciplina) < 1
+		BEGIN
+			RAISERROR('Discipline: wrong discipline', 16, 1)
+		END
+	
+	UPDATE studenti.studenti_reusita
+	SET Id_Profesor = (SELECT Id_Profesor
+						FROM cadre_didactice.profesori
+						WHERE Nume_Profesor = @Nume_Profesor_Nou AND Prenume_Profesor = @Prenume_Profesor_Nou)
+	WHERE Id_Profesor = (SELECT Id_Profesor
+							FROM cadre_didactice.profesori
+							WHERE Nume_Profesor = @Nume_Profesor_Vechi AND 
+							Prenume_Profesor = @Prenume_Profesor_Vechi) AND
+			Id_Disciplina = (SELECT Id_Disciplina
+								FROM plan_studii.discipline
+								WHERE Disciplina = @Nume_Disciplina)								
+END
+
+EXECUTE Procedure_Task4 'Frent', 'Tudor', 'Popescu', 'Gabriel', 'Cercetari operationale'
+
+
+5.
+
+USE universitatea
+GO
+DROP PROCEDURE IF EXISTS Procedure_Task5
+GO
+CREATE PROCEDURE Procedure_Task5
+	@Nume_Disciplina VARCHAR(255)
+AS
+BEGIN
+	DECLARE @Best_students TABLE
+	(
+		Id_Student INT,
+		Nota_Maxima INT 
+	)
+
+	INSERT INTO @Best_students
+	SELECT TOP(3) studenti_reusita.Id_Student, SUM(Nota) AS Nota_Maxima
+	FROM studenti.studenti_reusita
+	JOIN studenti.studenti
+	ON studenti_reusita.Id_Student = studenti.Id_Student
+	JOIN plan_studii.discipline
+	ON studenti_reusita.Id_Disciplina = discipline.Id_Disciplina
+	WHERE Disciplina = @Nume_Disciplina
+	GROUP BY studenti_reusita.Id_Student
+	ORDER BY Nota_Maxima DESC
+
+	SELECT Cod_Grupa, Nume_Student + ' ' + Prenume_Student AS Nume_Prenume_Student, Disciplina, 
+		Nota AS Nota_Veche, IIF(Nota < 10, Nota + 1, Nota) AS Nota_Noua
+	FROM studenti.studenti_reusita
+	JOIN studenti.studenti
+	ON studenti_reusita.Id_Student = studenti.Id_Student
+	JOIN dbo.grupe
+	ON studenti_reusita.Id_Grupa = grupe.Id_Grupa
+	JOIN plan_studii.discipline
+	ON studenti_reusita.Id_Disciplina = discipline.Id_Disciplina
+	WHERE Tip_Evaluare = 'Examen' AND Disciplina = @Nume_Disciplina AND 
+			studenti_reusita.Id_Student IN (SELECT Id_Student FROM @Best_students)
+
+	UPDATE studenti.studenti_reusita
+	SET Nota = Nota + 1
+	WHERE Id_Student IN (SELECT Id_Student FROM @Best_students) AND Nota < 10
+END
+
+EXECUTE Procedure_Task5 'Sisteme de operare'
+
+6.
+
+USE universitatea
+GO
+DROP FUNCTION IF EXISTS dbo.Function_Task6_1
+GO
+CREATE FUNCTION dbo.Function_Task6_1(@NUMAR_PROFESORI SMALLINT)
+RETURNS TABLE
+AS
+RETURN (  WITH foo 
+       AS (SELECT id_disciplina, 
+                  Count(DISTINCT id_profesor) AS numarProfesori 
+           FROM   studenti.studenti_reusita 
+           GROUP  BY id_disciplina 
+           HAVING Count(DISTINCT id_profesor) > @NUMAR_PROFESORI) 
+  SELECT plan_studii.discipline.* 
+  FROM   plan_studii.discipline 
+         INNER JOIN foo 
+                 ON foo.id_disciplina = plan_studii.discipline.id_disciplina)
+
+SELECT *
+FROM dbo.Function_Task6_1(1)
+
+
+
+USE universitatea
+GO
+DROP FUNCTION IF EXISTS dbo.Function_Task6_2
+GO
+CREATE FUNCTION dbo.Function_Task6_2(@NUMAR_STUDENTI SMALLINT)
+RETURNS TABLE
+AS
+RETURN (  select Id_Grupa from studenti.studenti_reusita 
+group by Id_Grupa having count( distinct Id_Student) > @NUMAR_STUDENTI)
+
+SELECT *
+FROM dbo.Function_Task6_2(24)
+
+7.
+
+USE universitatea
+GO
+DROP FUNCTION IF EXISTS dbo.Function_Task7
+GO
+CREATE FUNCTION dbo.Function_Task7(@Data_Nasterii_Student DATE)
+RETURNS SMALLINT
+AS
+BEGIN
+	DECLARE @Current_Date DATE
+	DECLARE @Birthday_Pass INT
+
+	SET @Current_Date = GETDATE()
+
+	IF MONTH(@Data_Nasterii_Student) >= MONTH(@Current_Date)
+	BEGIN
+		IF DAY(@Data_Nasterii_Student) > DAY(@Current_Date)
+		BEGIN
+			SET @Birthday_Pass = 1
+		END
+		ELSE
+		BEGIN
+			SET @Birthday_Pass = 0
+		END
+	END
+	ELSE
+	BEGIN
+		SET @Birthday_Pass = 0
+	END
+
+	RETURN(DATEDIFF(YEAR, @Data_Nasterii_Student, @Current_Date) - @Birthday_Pass)
+END
+
+SELECT Nume_Student, Prenume_Student, Data_Nastere_Student, dbo.Function_Task7(Data_Nastere_Student) AS Age
+FROM studenti.studenti
+
+8.
+
+USE universitatea
+GO
+DROP FUNCTION IF EXISTS dbo.Function_Task8
+GO
+CREATE FUNCTION dbo.Function_Task8(@Nume_Prenume_Student VARCHAR(120))
+RETURNS TABLE
+AS
+RETURN (SELECT Nume_Student + ' ' + Prenume_Student AS Nume_Prenume_Student, Disciplina, Nota, Data_Evaluare 
+		FROM studenti.studenti_reusita
+		JOIN studenti.studenti
+		ON studenti_reusita.Id_Student = studenti.Id_Student
+		JOIN plan_studii.discipline
+		ON studenti_reusita.Id_Disciplina = discipline.Id_Disciplina
+		WHERE studenti.Nume_Student + ' ' + studenti.Prenume_Student = @Nume_Prenume_Student)
+
+SELECT *
+FROM dbo.Function_Task8('Dobrea Daniela')
+
+9.
+
+USE universitatea
+GO
+DROP FUNCTION IF EXISTS dbo.Function_Task9
+GO
+CREATE FUNCTION dbo.Function_Task9(@Cod_Grupa CHAR(6), @Is_Good VARCHAR(15))
+RETURNS @Ret TABLE (
+	Grupa CHAR(6),
+	Nume_Prenume_Student VARCHAR(120),
+	Nota DECIMAL(4, 2),
+	Criteriu_cautare VARCHAR(15)
+)
+AS
+BEGIN
+	IF @Is_Good = 'Sirguincios'
+	BEGIN
+		INSERT @Ret
+		SELECT TOP(1) Cod_Grupa, Nume_Student + ' ' + Prenume_Student AS Nume_Prenume,  
+			CAST(AVG(CAST(Nota AS DECIMAL(4, 2))) AS DECIMAL(4, 2)) AS Nota_Medie, @Is_Good
+		FROM studenti.studenti_reusita
+		JOIN studenti.studenti
+		ON studenti_reusita.Id_Student = studenti.Id_Student
+		JOIN dbo.grupe
+		ON studenti_reusita.Id_Grupa = grupe.Id_Grupa
+		WHERE Cod_Grupa = @Cod_Grupa
+		GROUP BY  Cod_Grupa, Nume_Student + ' ' + Prenume_Student
+		ORDER BY Nota_Medie DESC
+		RETURN
+	END
+	IF @Is_Good = 'Slab'
+		BEGIN
+		INSERT @Ret
+		SELECT TOP(1) Cod_Grupa, Nume_Student + ' ' + Prenume_Student AS Nume_Prenume,  
+			CAST(AVG(CAST(Nota AS DECIMAL(4, 2))) AS DECIMAL(4, 2)) AS Nota_Medie, @Is_Good
+		FROM studenti.studenti_reusita
+		JOIN studenti.studenti
+		ON studenti_reusita.Id_Student = studenti.Id_Student
+		JOIN dbo.grupe
+		ON studenti_reusita.Id_Grupa = grupe.Id_Grupa
+		WHERE Cod_Grupa = @Cod_Grupa
+		GROUP BY  Cod_Grupa, Nume_Student + ' ' + Prenume_Student
+		ORDER BY Nota_Medie ASC
+		RETURN
+	END
+	RETURN
+END
+
+SELECT *
+FROM dbo.Function_Task9('CIB171', 'Sirguincios')
+
+SELECT *
+FROM dbo.Function_Task9('CIB171', 'Slab')
+
+
