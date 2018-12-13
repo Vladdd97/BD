@@ -43,9 +43,9 @@ WHERE Zi = 'Luni'
    
 ```
 
-<img  align="center" width="250" height="150" src="screenshots/ex1.PNG">
+<img  align="center" width="450" height="250" src="screenshots/ex1.PNG">
 
-<img  align="center" width="250" height="150" src="screenshots/ex1_2.PNG">
+<img  align="center" width="450" height="250" src="screenshots/ex1_2.PNG">
 
 
 ### 2. Create a trigger, which will populate conscutively tables stundeti and studenti_reusita and will avoid erros according to the keys.
@@ -82,7 +82,7 @@ INSERT INTO studenti.studenti_reusita
 VALUES(458, 105, 110, 1, 'Examen', 9, '2018-12-11')
 ```
 
-<img  align="center" width="250" height="150" src="screenshots/ex2.PNG">
+<img  align="center"  width="450" height="250"  src="screenshots/ex2.PNG">
 
 
 
@@ -146,9 +146,9 @@ WHERE Id_Student= 100 AND Id_Disciplina = 105 AND Tip_Evaluare = 'Examen'
 
 
 ```
-<img  align="center" width="250" height="150" src="screenshots/ex3.PNG">
+<img  align="center"  width="450" height="250"  src="screenshots/ex3.PNG">
 
-<img  align="center" width="250" height="150" src="screenshots/ex3_2.PNG">
+<img  align="center"  width="450" height="250"  src="screenshots/ex3_2.PNG">
 
 
 ### 4.  Create a trigger DDL which will interdict modification of 'Id_Disicpllina' column in tables of database universitatae with showing the message.
@@ -178,7 +178,7 @@ ALTER COLUMN Id_Disciplina SMALLINT
 
 ```
 
-<img  align="center" width="250" height="150" src="screenshots/ex4.PNG">
+<img  align="center"  width="450" height="250"  src="screenshots/ex4.PNG">
 
 
 ### 5.  Create a trigger DDL which will interdict modification schema of database over working hours.
@@ -221,7 +221,7 @@ CREATE TABLE dbo.catedre (
 
 ```
 
-<img  align="center" width="250" height="150" src="screenshots/ex5.PNG">
+<img  align="center"  width="450" height="250"  src="screenshots/ex5.PNG">
 
 
 ### 6. Create a trigger DDL , which once modified properties of 'Id_Profesor' column from one table, will modify automatically in allow tables.
@@ -267,8 +267,8 @@ ALTER COLUMN Id_Profesor SMALLINT
 ```
 
 
-<img  align="center" width="250" height="150" src="screenshots/ex6.PNG">
+<img  align="center"  width="450" height="250"  src="screenshots/ex6.PNG">
 
-<img  align="center" width="250" height="150" src="screenshots/ex6_2.PNG">
+<img  align="center"  width="450" height="250"  src="screenshots/ex6_2.PNG">
 
 
