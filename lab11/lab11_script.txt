@@ -1,0 +1,42 @@
+1.
+
+USE universitatea
+GO
+IF EXISTS (SELECT * FROM master.dbo.sysdevices WHERE name='device01')
+EXEC sp_dropdevice 'device01' , 'delfile';
+GO
+EXEC sp_addumpdevice 'DISK', 'device01', 'C:\DB_lab11\Backup_lab11\exercitiul1.bak'
+GO
+BACKUP DATABASE universitatea
+TO device01
+WITH FORMAT, 
+		NAME = 'universitatea - Full Database Backup'
+		
+		
+		
+2.
+
+USE universitatea
+GO
+IF EXISTS(SELECT * FROM master.dbo.sysdevices WHERE name='device02')
+EXEC sp_dropdevice 'device02', 'delfile'
+GO
+EXEC sp_addumpdevice 'DISK', 'device02', 'C:\DB_lab11\Backup_lab11\exercitiul2.bak'
+GO
+BACKUP DATABASE universitatea
+TO device02
+
+3.
+
+USE universitatea
+GO
+IF EXISTS(SELECT * FROM master.dbo.sysdevices WHERE name='device03')
+EXEC sp_dropdevice 'device03', 'delfile'
+GO
+EXEC sp_addumpdevice 'DISK', 'device03', 'C:\DB_lab11\Backup_lab11\exercitiul3.bak'
+GO
+BACKUP LOG universitatea
+TO device03
+
+4.
+
