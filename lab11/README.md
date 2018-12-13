@@ -18,7 +18,7 @@ WITH FORMAT,
    
 ```
 
-<img  align="center" width="650" height="350" src="screenshots/ex1.PNG">
+<img  align="center" width="750" height="250" src="screenshots/ex1.PNG">
 
 ### 2. Write SQL instructions for differential backup which will be named exercitiul2.bak.
 
@@ -34,7 +34,7 @@ BACKUP DATABASE universitatea
 TO device02
 ```
 
-<img  align="center" width="650" height="350" src="screenshots/ex2.PNG">
+<img  align="center" width="750" height="350" src="screenshots/ex2.PNG">
 
 
 
@@ -52,7 +52,7 @@ GO
 BACKUP LOG universitatea
 TO device03
 ```
-<img  align="center" width="650" height="350" src="screenshots/ex3.PNG">
+<img  align="center" width="750" height="250" src="screenshots/ex3.PNG">
 
 ### 4.  Execute restoring consecutively of all backup files created. The new databse will be named universitatea_lab11. Files of the new database must be located in 'BD_lab11'. Write the SQL instructions.
 
@@ -78,6 +78,6 @@ FROM device03
 WITH NORECOVERY
 ```
 
-<img  align="center" width="650" height="450" src="screenshots/ex4.PNG">
+<img  align="center" width="750" height="250" src="screenshots/ex4.PNG">
 
 <img  align="center" width="650" height="350" src="screenshots/ex4.PNG">
