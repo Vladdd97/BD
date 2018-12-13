@@ -80,4 +80,4 @@ WITH NORECOVERY
 
 <img  align="center" width="750" height="250" src="screenshots/ex4.PNG">
 
-<img  align="center" width="650" height="350" src="screenshots/ex4_2.PNG">
+<img  align="center" width="650" height="350" src="screenshots/ex4_2PNG.PNG">
