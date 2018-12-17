@@ -322,4 +322,8 @@ VALUES
 
 CREATE NONCLUSTERED INDEX lab6_ex8 ON studenti.studenti(Nume_Student)
 on userdatagroup1
+
+
+CREATE NONCLUSTERED INDEX lab6_ex8_2 ON studenti.studenti_reusita(Nota)
+on userdatagroup1
 ```
