@@ -4,9 +4,9 @@
 ### 1.  Create 2 views based on exercises from 4th laboratory work. One of them should be created using the 'View Designer' and the other using the 'Query Editor'.
 
 
-<img  align="center" width="550" height="350" src="screenshots/ex1_1.PNG">
+<img  align="center" width="650" height="550" src="screenshots/ex1_1.PNG">
 
-```
+```sql
 CREATE VIEW ex1_view2 
 AS 
   WITH foo 
@@ -27,7 +27,7 @@ AS
 
 ### 2.  Write an example of INSERT, UPDATE and DELETE instruction on the created views. Leave some comments about the obtained results.
 
-```
+```sql
 INSERT INTO ex1_View1 ( Cod_Grupa, Specialitate, Nume_Facultate, Sef_grupa, Prof_Idrumator)
 VALUES ('FAF-161','IT','FCIM',110,105);
 
@@ -46,7 +46,7 @@ DELETE FROM ex1_View1 WHERE Id_Grupa = 4;
 ### 3.  Write the SQL instructions which will modify the created views so that, there will not be possible to modify or delete the tables on which views are defined. Also the views should not accept DML operations in case that conditions under WHERE clause are not respected.
 
 
-```
+```sql
 alter view ex1_View1
 with Schemabinding as 
 ( 
@@ -75,7 +75,7 @@ with check option
 ### 4.  Write the instructions which will test the properties added in 3rd task.
 
 
-```
+```sql
 --The attempted insert or update failed because the target view either specifies WITH CHECK OPTION or spans a view that specifies WITH CHECK OPTION and one or more rows resulting from the operation did not qualify under the CHECK OPTION constraint.
 INSERT INTO ex1_View2 (Id_Disciplina, Disciplina, Nr_ore_plan_disciplina)
 VALUES (222,'dadada',22)
@@ -84,7 +84,7 @@ VALUES (222,'dadada',22)
 ### 5.  Rewrite 2 queries from the 4th laboratory work so that the subqueries will be represented as commont table expressions.
 
 
-```
+```sql
 with CTE1 as 
 (select Id_Grupa, Cod_Grupa, Specialitate, Nume_Facultate, Sef_grupa, Prof_Idrumator from dbo.grupe )
 select * from CTE1
@@ -101,7 +101,7 @@ select * from CTE2
 
 ### 6. There is a graph presented in the figure below. There is a need in traversing it from node 3 to node 0. Represent the graph traversal using the recursive common table expression.
 
-```
+```sql
 USE universitatea
 
 DECLARE @graph TABLE

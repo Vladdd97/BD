@@ -43,7 +43,7 @@ WHERE Zi = 'Luni'
    
 ```
 
-<img  align="center" width="650" height="450" src="screenshots/ex1.PNG">
+<img  align="center" width="800" height="450" src="screenshots/ex1.PNG">
 
 <img  align="center" width="650" height="250" src="screenshots/ex1_2.PNG">
 
@@ -82,7 +82,7 @@ INSERT INTO studenti.studenti_reusita
 VALUES(458, 105, 110, 1, 'Examen', 9, '2018-12-11')
 ```
 
-<img  align="center"  width="650" height="250"  src="screenshots/ex2.PNG">
+<img  align="center"  width="650" height="150"  src="screenshots/ex2.PNG">
 
 
 

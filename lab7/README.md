@@ -29,7 +29,7 @@
 
 ### 6. Create the new 3 schemas : cadre_didactice, plan_studii, studenti. Transfer profesori from dbo schema to 'cadre_didactice' schema , discipline to 'plan_studii', studenti and studenti_reusita to 'studenti'. Write the needed SQL instructions.
 
-```
+```sql
 USE universitatea
 GO
 CREATE SCHEMA cadre_didactice AUTHORIZATION dbo;
@@ -51,12 +51,12 @@ ALTER SCHEMA studenti TRANSFER dbo.studenti_reusita;
 
 
 
-<img  align="center" width="650" height="850" src="screenshots/ex6.PNG">
+<img  align="center" width="750" height="850" src="screenshots/ex6.PNG">
 
 ### 7. Modify the 2-3 queries from chapter 4 on the 'universitatea' database for explicitly addressing at the tables, taking into account that tables are in the new schemas.
 
 
-```
+```sql
   WITH foo AS (	select Id_Disciplina ,count( distinct Id_Profesor) as numarProfesori from studenti.studenti_reusita
 	group by Id_Disciplina  having count( distinct Id_Profesor) > 1 )
 	select plan_studii.discipline.* from plan_studii.discipline inner join foo on foo.Id_Disciplina = plan_studii.discipline.Id_Disciplina;
@@ -67,25 +67,10 @@ group by Id_Grupa having count( distinct Id_Student) > 24;
 ```
 
 
-
-
-
-### 7. Modify the 2-3 queries from chapter 4 on the 'universitatea' database for explicitly addressing at the tables, taking into account that tables are in the new schemas.
-
-
-```
-  WITH foo AS (	select Id_Disciplina ,count( distinct Id_Profesor) as numarProfesori from studenti.studenti_reusita
-	group by Id_Disciplina  having count( distinct Id_Profesor) > 1 )
-	select plan_studii.discipline.* from plan_studii.discipline inner join foo on foo.Id_Disciplina = plan_studii.discipline.Id_Disciplina;
-	
-	
-	select Id_Grupa from studenti.studenti_reusita 
-group by Id_Grupa having count( distinct Id_Student) > 24;
-```
 
 ### 8. Create synonyms for simplify the queries performed in the previous item and perform the queries , using the created synonyms.
 
-```
+```sql
 USE universitatea
 GO
 CREATE SYNONYM synonym_discipline FOR plan_studii.discipline;

@@ -5,7 +5,7 @@
 <img  align="center" width="450" height="350" src="screenshots/lab5_ex1_cond.PNG">
 
 #### Task implementation: 
-```
+```sql
 DECLARE @N1 INT, @N2 INT, @N3 INT;
 DECLARE @MAI_MARE INT;
 SET @N1 = 60 * RAND()
@@ -35,7 +35,7 @@ PRINT 'Mai mare = ' + CAST(@MAI_MARE AS VARCHAR(2));
 
 ### 2. Display the first 10 data (Name, Surname of student) in function of Grade value (except 6 and 8) of student on first evaluation at Database , using IF-ELSE statement. To use variables.
 #### Task implementation: 
-```
+```sql
 DECLARE @nota1 as int , @nota2 as int , @numberOfData as int;
 SET @nota1 = 6;
 SET @nota2 = 8;
@@ -51,7 +51,7 @@ where Disciplina = 'Baze de date' and Tip_evaluare = 'Testul 1' and Nota in ( ii
 
 ### 3. Solve the same task,1, using CASE statement.
 #### Task implementation: : 
-```
+```sql
 DECLARE @N1 INT, @N2 INT, @N3 INT;
 DECLARE @MAI_MARE INT;
 SET @N1 = 60 * RAND()
@@ -74,7 +74,7 @@ PRINT 'Mai mare = ' + CAST(@MAI_MARE AS VARCHAR(2));
 
 ### 4. Modify the exercises from task 1 and 2 for including error processing with TRY-CATCH and RAISERROR.
 #### Task implementation: : 
-```
+```sql
 -- task1
 BEGIN TRY
 	DECLARE @N1 INT, @N2 INT, @N3 INT;
@@ -118,5 +118,5 @@ BEGIN CATCH
 END CATCH
 ```
 #### Result : 
-<img  align="center" width="250" height="150" src="screenshots/lab5_ex4_result.PNG">
+<img  align="center" width="350" height="150" src="screenshots/lab5_ex4_result.PNG">
 

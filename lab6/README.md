@@ -72,7 +72,7 @@ set
 
 ### 4.  Write the T-SQL instruction which will increase the 'Nota' with 1 unit. The maximum 'Nota' (10) couldn't be increased.
 
-```
+```sql
 UPDATE studenti_reusita
 SET Nota = studenti_reusita.Nota + 1
 where studenti_reusita.Id_Student IN (select Sef_grupa from grupe ) 
@@ -92,7 +92,7 @@ and studenti_reusita.Nota < 10
     Adresa_1 = street name
     Adresa_2 = house number or apartment.
 
-```
+```sql
 CREATE TABLE profesori_new (
     Id_Profesor int IDENTITY (1,1) NOT NULL, 
     Nume_Profesor varchar(255),
@@ -176,7 +176,7 @@ FROM   profesori
 (Id_Disciplina =109, Id_Profesor = 117, Ora = '13:00', Auditoriu = 501)
 
 
-```
+```sql
 
 CREATE TABLE orarul 
   ( 
@@ -211,7 +211,7 @@ VALUES
 (Ora = '11:30' , Disciplina = 'Programe aplicative', Profesor = 'Mircea Sorin')
 (Ora = '13:00' , Disciplina = 'Baze de date', Profesor = 'Micu Elena')
 
-```
+```sql
 INSERT INTO
    orarul (Id_Disciplina, Id_Profesor, Id_Grupa, Ora, Auditoriu, Bloc, Zi) 
 VALUES
@@ -318,7 +318,7 @@ VALUES
 ### 8....
 
 
-```
+```sql
 
 CREATE NONCLUSTERED INDEX lab6_ex8 ON studenti.studenti(Nume_Student)
 on userdatagroup1

@@ -34,7 +34,7 @@ BACKUP DATABASE universitatea
 TO device02
 ```
 
-<img  align="center" width="750" height="350" src="screenshots/ex2.PNG">
+<img  align="center" width="750" height="250" src="screenshots/ex2.PNG">
 
 
 
@@ -52,7 +52,7 @@ GO
 BACKUP LOG universitatea
 TO device03
 ```
-<img  align="center" width="750" height="250" src="screenshots/ex3.PNG">
+<img  align="center" width="750" height="150" src="screenshots/ex3.PNG">
 
 ### 4.  Execute restoring consecutively of all backup files created. The new databse will be named universitatea_lab11. Files of the new database must be located in 'BD_lab11'. Write the SQL instructions.
 
